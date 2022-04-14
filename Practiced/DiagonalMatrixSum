@@ -1,0 +1,102 @@
+package array;
+
+//https://leetcode.com/problems/matrix-diagonal-sum/
+
+public class DiagonalMatrixSum {
+	
+	public static void main(String[] args) {
+//		int[][] arr = {{1, 2, 3},
+//						{4, 5, 6},
+//						{7, 8, 9}};
+//		int[][] arr = {{1, 1, 1, 1},
+//						{1, 1, 1, 1},
+//						{1, 1, 1, 1},
+//						{1, 1, 1, 1}};
+		int[][] arr = {{7,3,1,9},
+						{3,4,6,9},
+						{6,9,6,6},
+						{9,5,8,5}};
+		int sum = findDiagonalSum(arr);
+//		int sum = findDiagonalSum2(arr);
+//		int sum = findDiagonalSum3(arr);
+		System.out.println(sum);
+	}
+
+	//FIRST WAY
+	
+	//TIME COMPLEXITY: O(N^2)
+	private static int findDiagonalSum(int[][] arr) {
+		int sum1 = 0;
+		int sum2 = 0;
+		for(int row = 0; row < arr.length; row++) {
+			//find left to right diagonal elements sum
+			for(int col = 0; col < arr[row].length; col++) {
+				//add elements, only if row == column
+				if(row == col) {
+					sum1 += arr[row][col];
+				}
+			}
+			//find right to left diagonal elements sum
+			//take the column value from right
+			int col = arr.length - 1 - row;
+			
+			//check if array is odd
+			//if odd array, then ignore the overlapped term, i.e. we can get using arr.length/2
+			//to ignore we have used 'continue' to ignore further steps
+			if(arr.length % 2 != 0 && row == arr.length / 2) 
+				continue;
+			//else add the elements from right to left
+			sum2 += arr[row][col];
+		}
+		//add both side diagonal elements
+		return sum1 + sum2; 
+	}
+	
+	//SECOND WAY
+	
+	//TIME COMPLEXITY = O(N)
+	public static int findDiagonalSum2(int[][] arr) {
+		//as we know, given: we are taking only square matrix, so all row length are same
+		//so we can take one common row length for all columns
+		int sum = 0;
+		for(int i = 0; i < arr[0].length; i++) {
+			//row and column should be same
+			//taking left to right diagonal
+			sum += arr[i][i];
+			
+			//taking right to left diagonal
+			sum += arr[i][arr.length-1-i];
+		}
+		
+		//now as all diagonal values are added, so have to subtrace one overlap value
+		//check if matrix if of odd size or not
+		if(arr.length % 2 != 0) {
+			//if matrix is of odd size, subtract the collide column, 
+			//that will be always mid column, i.e. we can get by arr.length/2
+			sum = sum - arr[arr.length / 2][arr.length / 2];
+		}
+		return sum;
+	}
+	
+	//THIRD WAY
+	
+	//TIME COMPLEXITY = O(N)
+	
+	public static int findDiagonalSum3(int[][] arr) {
+		int sum = 0;
+		//run the column loop and check elements for its diagonal
+		//as we know its square matrix, so arr.length = arr[row].length
+		for(int i = 0; i < arr.length; i++) {
+			//now first we will check collide column
+			//if collision occur, then add column only once
+			if(arr.length % 2 != 0 && i == arr.length / 2) {
+				sum += arr[i][i];
+			}
+			else {
+				//adding both diagonal arrays together
+				sum += arr[i][i] + arr[i][arr.length - i - 1];
+			}
+		}
+		return sum;
+	}
+}
