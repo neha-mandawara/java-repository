@@ -1,0 +1,78 @@
+package array;
+
+import java.util.Arrays;
+
+//https://leetcode.com/problems/find-n-unique-integers-sum-up-to-zero/submissions/
+
+public class FindNUniqueIntegerSumUptoZero {
+
+	public static void main(String[] args) {
+		int n = 7;
+		int[] ans = findUniqueSumUptoZero(n);
+		System.out.println(Arrays.toString(ans));
+	}
+	
+	public static int[] findUniqueSumUptoZero(int n) {
+		
+//		//if n = 1, only one element in array i.e. 0
+//		if(n == 1	) {
+//			return new int[] {0};
+//		}
+//		
+//		int[] ans = new int[n];
+//		int count = 1;
+//		
+//		//if n = even, then add same no. half of n positive and half of n negative element
+//		if(n % 2 == 0) {
+//			for(int i = 0; i < n/2; i++) {
+//				//store count
+//				ans[i] = count;
+//				//increase count to store 2nd no.
+//				count++;
+//			}
+//			count = 1;
+//			for(int i = n/2; i < n; i++) {
+//				ans[i] = count * -1;
+//				count++;
+//			}
+//		}
+//		
+//		//if n = odd, then add one number = 0, and rest half size +ive and half size -ive
+//		else {
+//			for(int i = 0; i < n/2; i++) {
+//				ans[i] = count;
+//				count++;
+//			}
+//			count = 1;
+//			for(int i = n/2; i < n-1; i++) {
+//				ans[i] = count * -1;
+//				count++;
+//			}
+//			ans[n-1] = 0;
+//		}
+//		return ans;
+		
+		
+		//Second Way
+		
+		//we can do same as first like
+		if(n == 1) {
+			return new int[] {0};
+		}
+		
+		int[] ans = new int[n];
+		
+		//for n = even, this much is enough
+		for(int i = 0; i < n/2; i++) {
+			ans[i] = i+1;
+			ans[(n/2) + i] = (i+1) * -1;
+		}
+		
+		//for n = odd, 1 element will left from above loop, so add 0 there
+		if(n % 2 != 0) {
+			ans[n-1] = 0;
+		}
+		return ans;
+	}
+
+}
